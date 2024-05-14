@@ -1,5 +1,34 @@
 version: '3'
 services:
+    sender1:
+        build: ./producer/src
+        image: sender-golang-app
+        environment:
+        - KAFKA_HOST=kafka:9092
+        - TOPIC=sender1
+        - USER=Anna
+        depends_on:
+            - kafka
+
+    sender2:
+        build: ./producer/src
+        image: sender-golang-app
+        environment:
+        - KAFKA_HOST=kafka:9092
+        - TOPIC=sender2
+        - USER=Bob
+        depends_on:
+            - kafka
+
+    receiver:
+        build: ./go-consumer/src
+        image: reciver-golang-app
+        environment:
+        - BROKERS=kafka:9092
+        - TOPICS=sender1,sender2
+        depends_on:
+            - kafka
+
     zookeeper:
         image: wurstmeister/zookeeper
         container_name: zookeeper
@@ -14,7 +43,7 @@ services:
         environment:
             - KAFKA_BROKER_ID=1
             - KAFKA_LISTENERS=PLAINTEXT://:9092
-            - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://127.0.0.1:9092
+            - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://:9092
             - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
             - ALLOW_PLAINTEXT_LISTENER=yes
             - TOPIC_AUTO_CREATE=false
