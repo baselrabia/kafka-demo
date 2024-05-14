@@ -1,6 +1,12 @@
 # Golang Kafka Terraform Task 
 
-i start by using docker-compose file which help to develop the golang app so all u nee to do is to run ` docker-compose up -d`, in additional you need to create two topics manually using the makefile i had some commands 
+i start by using docker-compose file which help to develop the golang app so all u nee to do is to run 
+```bash 
+ docker-compose up -d
+ ```
+ 
+ in additional you need to create two topics manually using the makefile i had some commands 
+ 
 ```bash 
  make create-topic topic=sender1
 
